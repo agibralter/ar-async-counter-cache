@@ -9,13 +9,6 @@ module ArAsyncCounterCache
       }.gsub(/\s+/, ' ').strip
     end
 
-    def async_decrement_counters
-      raise %{
-        Since you don't have resque installed, please define #{self.class.to_s}#async_decrement_counters.
-        Basically it should queue a job that calls #{self.class.to_s}#update_async_counters(:decrement).
-      }.gsub(/\s+/, ' ').strip
-    end
-
     def update_async_counters(dir, *parent_types)
       (parent_types.empty? ? self.class.async_counter_types.keys : parent_types).each do |parent_type|
         if (col = self.class.async_counter_types[parent_type]) && (parent = send(parent_type))
@@ -53,9 +46,9 @@ module ArAsyncCounterCache
       def add_callbacks
         # Define after_create callback method.
         method_name = "belongs_to_async_counter_cache_after_create".to_sym
-        if defined?(ArAsyncCounterCache::UpdateCountersJob)
+        if defined?(ArAsyncCounterCache::IncrementCountersJob)
           define_method(method_name) do
-            Resque.enqueue(ArAsyncCounterCache::UpdateCountersJob, self.class.to_s, self.id, :increment)
+            Resque.enqueue(ArAsyncCounterCache::IncrementCountersJob, self.class.to_s, self.id)
           end
         else
           define_method(method_name) do
@@ -65,14 +58,8 @@ module ArAsyncCounterCache
         after_create(method_name)
         # Define before_destroy callback method.
         method_name = "belongs_to_async_counter_cache_before_destroy".to_sym
-        if defined?(ArAsyncCounterCache::UpdateCountersJob)
-          define_method(method_name) do
-            Resque.enqueue(ArAsyncCounterCache::UpdateCountersJob, self.class.to_s, self.id, :decrement)
-          end
-        else
-          define_method(method_name) do
-            self.async_decrement_counters
-          end
+        define_method(method_name) do
+          update_async_counters(:decrement)
         end
         before_destroy(method_name)
       end

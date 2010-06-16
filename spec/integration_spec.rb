@@ -44,11 +44,11 @@ describe "integration" do
     @post2.reload.count_of_comments.should == 1
   end
 
-  it "should decrement too" do
+  it "should decrement synchronously" do
+    perform_all_jobs
     @comment1.destroy
     @comment2.destroy
     @comment3.destroy
-    perform_all_jobs
     @user1.reload.posts_count.should == 2
     @user1.reload.comments_count.should == 0
     @user2.reload.posts_count.should == 0

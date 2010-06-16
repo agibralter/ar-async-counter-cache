@@ -55,21 +55,14 @@ However, you can change this:
 
     ArAsyncCounterCache.resque_job_queue = :low_priority
 
-If you don't want to use Resque, you must define two instance methods for your
+If you don't want to use Resque, you must define one instance method for your
 models using ar-async-counter-cache:
 
   e.g.:
 
     Comment#async_increment_counters
-    Comment#async_decrement_counters
 
-These methods should pass a message onto a queue for a background processor to
+That method should pass a message onto a queue for a background processor to
 handle later. That background processor should call:
 
     Comment#update_async_counters(:increment)
-
-and
-
-    Comment#update_async_counters(:decrement)
-    
-respectively.

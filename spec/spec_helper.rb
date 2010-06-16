@@ -1,13 +1,10 @@
 spec_dir = File.expand_path(File.dirname(__FILE__))
-
-$: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
-$: << spec_dir
+$:.unshift(File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib')))
 
 require 'rubygems'
 # Ensure resque for tests.
 require 'resque'
 require 'ar-async-counter-cache'
-
 require 'spec'
 require 'models'
 

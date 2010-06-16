@@ -16,7 +16,7 @@ describe ArAsyncCounterCache::ActiveRecord do
     end
     
     it "should queue job" do
-      Resque.should_receive(:enqueue).with(ArAsyncCounterCache::UpdateCountersJob, "Post", an_instance_of(Fixnum), :increment)
+      Resque.should_receive(:enqueue).with(ArAsyncCounterCache::IncrementCountersJob, "Post", an_instance_of(Fixnum))
       @user.posts.create(:body => "I have a cat!")
     end
   end
