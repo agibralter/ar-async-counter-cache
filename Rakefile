@@ -1,6 +1,5 @@
 begin
-  require "jeweler"
-  Jeweler::GemcutterTasks.new
+  require 'jeweler'
   Jeweler::Tasks.new do |gemspec|
     gemspec.name        = "ar-async-counter-cache"
     gemspec.summary     = "Increment ActiveRecord's counter cache column asynchronously (using Resque)."
@@ -10,6 +9,7 @@ begin
     gemspec.authors     = ["Aaron Gibralter"]
     gemspec.add_dependency("activerecord", ">= 2.3.5")
   end
+  Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler not available. Install it with: gem install jeweler"
 end
