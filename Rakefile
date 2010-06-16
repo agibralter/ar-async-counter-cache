@@ -1,5 +1,6 @@
 begin
   require "jeweler"
+  Jeweler::GemcutterTasks.new
   Jeweler::Tasks.new do |gemspec|
     gemspec.name        = "ar-async-counter-cache"
     gemspec.summary     = "Increment ActiveRecord's counter cache column asynchronously (using Resque)."
