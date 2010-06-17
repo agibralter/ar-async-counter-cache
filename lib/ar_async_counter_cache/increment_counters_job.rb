@@ -7,7 +7,7 @@ module ArAsyncCounterCache
   end
 
   class IncrementCountersJob
-    @queue = :default
+    @queue = :counter_caches
 
     # Take advantage of resque-retry if possible.
     begin

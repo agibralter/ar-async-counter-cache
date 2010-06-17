@@ -45,9 +45,9 @@ Al you need is resque in your loadpath:
 
     gem 'resque', '1.9.4'
 
-By default, the Resque job is placed on the :default queue:
+By default, the Resque job is placed on the :counter_caches queue:
 
-    @queue = :default
+    @queue = :counter_caches
 
 However, you can change this:
 
