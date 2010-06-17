@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ar-async-counter-cache}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Aaron Gibralter"]
@@ -22,7 +22,8 @@ Gem::Specification.new do |s|
      "ar-async-counter-cache.gemspec",
      "lib/ar-async-counter-cache.rb",
      "lib/ar_async_counter_cache/active_record.rb",
-     "lib/ar_async_counter_cache/resque_job.rb",
+     "lib/ar_async_counter_cache/increment_counters_job.rb",
+     "pkg/ar-async-counter-cache-0.0.1.gem",
      "spec/ar_async_counter_cache/active_record_spec.rb",
      "spec/integration_spec.rb",
      "spec/models.rb",
@@ -32,7 +33,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/agibralter/ar-async-counter-cache}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{Increment ActiveRecord's counter cache column asynchronously (using Resque).}
   s.test_files = [
     "spec/ar_async_counter_cache/active_record_spec.rb",
@@ -45,7 +46,7 @@ Gem::Specification.new do |s|
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<activerecord>, [">= 2.3.5"])
     else
       s.add_dependency(%q<activerecord>, [">= 2.3.5"])
