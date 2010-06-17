@@ -1,12 +1,12 @@
 module ArAsyncCounterCache
 
   def self.resque_job_queue=(sym)
-    ArAsyncCounterCache::IncrementCountersJob.class_eval do
+    ArAsyncCounterCache::IncrementCountersWorker.class_eval do
       @queue = sym
     end
   end
 
-  class IncrementCountersJob
+  class IncrementCountersWorker
     @queue = :counter_caches
 
     # Take advantage of resque-retry if possible.

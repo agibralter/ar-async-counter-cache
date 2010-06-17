@@ -2,7 +2,7 @@ require 'active_record'
 
 begin
   require 'resque'
-  require 'ar_async_counter_cache/increment_counters_job'
+  require 'ar_async_counter_cache/increment_counters_worker'
 rescue LoadError
 end
 

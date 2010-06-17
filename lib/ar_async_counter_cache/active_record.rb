@@ -46,9 +46,9 @@ module ArAsyncCounterCache
       def add_callbacks
         # Define after_create callback method.
         method_name = "belongs_to_async_counter_cache_after_create".to_sym
-        if defined?(ArAsyncCounterCache::IncrementCountersJob)
+        if defined?(ArAsyncCounterCache::IncrementCountersWorker)
           define_method(method_name) do
-            Resque.enqueue(ArAsyncCounterCache::IncrementCountersJob, self.class.to_s, self.id)
+            Resque.enqueue(ArAsyncCounterCache::IncrementCountersWorker, self.class.to_s, self.id)
           end
         else
           define_method(method_name) do

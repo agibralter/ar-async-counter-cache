@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
      "ar-async-counter-cache.gemspec",
      "lib/ar-async-counter-cache.rb",
      "lib/ar_async_counter_cache/active_record.rb",
-     "lib/ar_async_counter_cache/increment_counters_job.rb",
+     "lib/ar_async_counter_cache/increment_counters_worker.rb",
      "pkg/ar-async-counter-cache-0.0.1.gem",
      "spec/ar_async_counter_cache/active_record_spec.rb",
      "spec/integration_spec.rb",
