@@ -2,22 +2,20 @@ require 'spec_helper'
 
 describe ArAsyncCounterCache::ActiveRecord do
 
-  describe ArAsyncCounterCache::ActiveRecord::ClassMethods do
-    it "should set async_counter_types" do
-      Post.async_counter_types.should == {:user => "posts_count"}
-      Comment.async_counter_types.should == {:user => "comments_count", :post => "count_of_comments"}
-    end
-  end
-  
   context "callbacks" do
 
-    before(:each) do
-      @user = User.create(:name => "Susan")
+    subject { User.create(:name => "Susan") }
+
+    it "should increment" do
+      ArAsyncCounterCache::IncrementCountersWorker.should_receive(:cache_and_enqueue).with("User", subject.id, "posts_count", :increment)
+      subject.posts.create(:body => "I have a cat!")
     end
-    
-    it "should queue job" do
-      Resque.should_receive(:enqueue).with(ArAsyncCounterCache::IncrementCountersWorker, "Post", an_instance_of(Fixnum))
-      @user.posts.create(:body => "I have a cat!")
+
+    it "should increment" do
+      ArAsyncCounterCache::IncrementCountersWorker.stub(:cache_and_enqueue)
+      post = subject.posts.create(:body => "I have a cat!")
+      ArAsyncCounterCache::IncrementCountersWorker.should_receive(:cache_and_enqueue).with("User", subject.id, "posts_count", :decrement)
+      post.destroy
     end
   end
 end
