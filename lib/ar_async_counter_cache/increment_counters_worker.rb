@@ -87,9 +87,12 @@ module ArAsyncCounterCache
     end
 
     def self.perform(parent_class, id, column)
-      if (delta = redis.getset(cache_key(parent_class, id, column), 0).to_i) != 0
+      key = cache_key(parent_class, id, column)
+      if (delta = redis.getset(key, 0).to_i) != 0
         begin
-          ::Resque.constantize(parent_class).update_counters(id, column => delta)
+          parent_class = ::Resque.constantize(parent_class)
+          parent_class.find(id)
+          parent_class.update_counters(id, column => delta)
         rescue Exception => e
           # If anything happens, set back the counter cache.
           if delta > 0
